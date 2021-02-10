@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  color: #595959;
+  height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+  height: 100%;
+}

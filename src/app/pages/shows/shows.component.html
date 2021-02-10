@@ -1,0 +1,35 @@
+<header>
+  <span>TV Shows</span>
+  <input [ngModel]="search$ | async" (ngModelChange)="onSearchInput($event)" placeholder="search" />
+</header>
+
+<main>
+  <div *ngIf="shows$ | async as shows" class="table-wrapper">
+    <table>
+      <thead>
+        <ng-container *ngFor="let header of headers">
+          <th (click)="onSort(header)" [class.sorted]="header === (sortingProperty$ | async)">{{ header }}</th>
+        </ng-container>
+      </thead>
+      <tr *ngFor="let show of shows">
+        <td class="pointer" (click)="onShowSelect(show)">{{ show.title }}</td>
+        <td class="pointer" (click)="onYearSelect(show.year)">{{ show.year }}</td>
+        <td class="pointer" (click)="onNetworkSelect(show.network)">{{ show.network }}</td>
+        <td>{{ show.status }}</td>
+        <td>{{ show.rating | number: '0.1-1' }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div *ngIf="hasFilters$ | async" class="filters">
+    <span class="pointer" (click)="onResetFilters()">reset filters</span>
+  </div>
+
+  <div *ngIf="selectedShow$ | async as selectedShow" class="selected-show">
+    <div class="content-wrapper">
+      <h2>{{ selectedShow.title }}</h2>
+      <div>{{ selectedShow.overview }}</div>
+    </div>
+    <img [src]="posterUrl$ | async" />
+  </div>
+</main>

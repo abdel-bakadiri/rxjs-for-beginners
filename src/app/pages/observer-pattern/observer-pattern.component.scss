@@ -1,0 +1,9 @@
+main {
+  display: grid;
+  gap: 30px 100px;
+  grid-template: minmax(0, 1fr) minmax(0, 2fr) / repeat(2, minmax(0, 1fr));
+}
+
+.left {
+  grid-row: 1/3;
+}

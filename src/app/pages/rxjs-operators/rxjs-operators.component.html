@@ -1,0 +1,210 @@
+<header>RxJS operators</header>
+<main>
+  <mat-tab-group>
+    <mat-tab label="Creation">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>of</mat-panel-title>
+          <mat-panel-description>emit values in a sequence and then complete</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="of"></code></pre>
+        <img src="/assets/images/operators/of.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>from</mat-panel-title>
+          <mat-panel-description>create an observable from array or promise</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="from"></code></pre>
+        <img src="/assets/images/operators/from.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>fromEvent</mat-panel-title>
+          <mat-panel-description>create an observable from event</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="fromEvent"></code></pre>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>interval</mat-panel-title>
+          <mat-panel-description>emit numbers in sequence based on a period</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="interval"></code></pre>
+        <img src="/assets/images/operators/interval.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>timer</mat-panel-title>
+          <mat-panel-description>after a delay, emit numbers in sequence based on a period</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="timer"></code></pre>
+        <img src="/assets/images/operators/timer.png" />
+      </mat-expansion-panel>
+    </mat-tab>
+
+    <mat-tab label="Transformation">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>map</mat-panel-title>
+          <mat-panel-description>turn each emitted value into another value</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="map"></code></pre>
+        <img src="/assets/images/operators/map.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>switchMap</mat-panel-title>
+          <mat-panel-description>map to another observable, complete inner observable and emit values</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="switchMap"></code></pre>
+        <img src="/assets/images/operators/switchMap.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>mergeMap</mat-panel-title>
+          <mat-panel-description>map to another observable and emit values</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="mergeMap"></code></pre>
+        <img src="/assets/images/operators/mergeMap.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>concatMap</mat-panel-title>
+          <mat-panel-description>map to another observable and emit values in order</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="concatMap"></code></pre>
+        <img src="/assets/images/operators/concatMap.png" />
+      </mat-expansion-panel>
+    </mat-tab>
+
+    <mat-tab label="Filtering">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>filter</mat-panel-title>
+          <mat-panel-description>emit value if it passes a condition</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="filter"></code></pre>
+        <img src="/assets/images/operators/filter.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>distinctUntilChanged</mat-panel-title>
+          <mat-panel-description>emit value if it's different from previous one</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="distinctUntilChanged"></code></pre>
+        <img src="/assets/images/operators/distinctUntilChanged.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>take</mat-panel-title>
+          <mat-panel-description>emit N first values</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="take"></code></pre>
+        <img src="/assets/images/operators/take.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>skip</mat-panel-title>
+          <mat-panel-description>skip N first values and emit others</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="skip"></code></pre>
+        <img src="/assets/images/operators/skip.png" />
+      </mat-expansion-panel>
+    </mat-tab>
+
+    <mat-tab label="Combination">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>combineLatest</mat-panel-title>
+          <mat-panel-description>emit latest values from all observables whenever any of them emits a value</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="combineLatest"></code></pre>
+        <img src="/assets/images/operators/combineLatest.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>forkJoin</mat-panel-title>
+          <mat-panel-description>emit latest values from all observables when all of them completes</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="forkJoin"></code></pre>
+        <img src="/assets/images/operators/forkJoin.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>zip</mat-panel-title>
+          <mat-panel-description>emit latest values from all observables when all of them emit values</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="zip"></code></pre>
+        <img src="/assets/images/operators/zip.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>merge</mat-panel-title>
+          <mat-panel-description>emit value whenever any observable emits a value</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="merge"></code></pre>
+        <img src="/assets/images/operators/merge.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>startWith</mat-panel-title>
+          <mat-panel-description>emit provided value before other values</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="startWith"></code></pre>
+        <img src="/assets/images/operators/startWith.png" />
+      </mat-expansion-panel>
+    </mat-tab>
+
+    <mat-tab label="Utility">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>tap</mat-panel-title>
+          <mat-panel-description>performs any action (side effect)</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="tap"></code></pre>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>delay</mat-panel-title>
+          <mat-panel-description>emit values with a delay</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="delay"></code></pre>
+        <img src="/assets/images/operators/delay.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>timeout</mat-panel-title>
+          <mat-panel-description>throw error if no value is emitted before specified duration</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="timeout"></code></pre>
+        <img src="/assets/images/operators/timeout.png" />
+      </mat-expansion-panel>
+
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>catchError</mat-panel-title>
+          <mat-panel-description>handle error in the stream and replace it with another observable</mat-panel-description>
+        </mat-expansion-panel-header>
+        <pre><code [highlight]="catchError"></code></pre>
+        <img src="/assets/images/operators/catchError.png" />
+      </mat-expansion-panel>
+    </mat-tab>
+  </mat-tab-group>
+</main>

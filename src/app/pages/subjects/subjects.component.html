@@ -1,0 +1,31 @@
+<header>Subjects</header>
+<main>
+  <mat-tab-group>
+    <mat-tab label="Subject">
+      <ul>
+        <li>implements both the Observable and the Observer interfaces</li>
+        <li>use the same stream for all subscribers</li>
+      </ul>
+      <pre><code [highlight]="subject"></code></pre>
+      <img src="/assets/images/operators/subject.png" />
+    </mat-tab>
+
+    <mat-tab label="BehaviorSubject">
+      <ul>
+        <li>emits the current value to new subscribers</li>
+        <li>requires an initial value</li>
+        <li>current value is accessible from outside</li>
+      </ul>
+      <pre><code [highlight]="behaviorSubject"></code></pre>
+      <img src="/assets/images/operators/behaviorSubject.png" />
+    </mat-tab>
+
+    <mat-tab label="ReplaySubject">
+      <ul>
+        <li>emits last N values to new subscribers</li>
+      </ul>
+      <pre><code [highlight]="replaySubject"></code></pre>
+      <img src="/assets/images/operators/replaySubject.png" />
+    </mat-tab>
+  </mat-tab-group>
+</main>
