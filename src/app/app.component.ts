@@ -1,5 +1,6 @@
 import { trigger, transition } from '@angular/animations';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivationStart, Router } from '@angular/router';
 import { fromEvent, merge, Observable, Subscription } from 'rxjs';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private readonly subscription = new Subscription();
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private snackBar: MatSnackBar) {
     this.pageId$ = this.router.events.pipe(
       filter((e): e is ActivationStart => e instanceof ActivationStart),
       map(e => e.snapshot.url[0].path.match(/(?:page-)(\d+)/)),
@@ -25,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.snackBar.open('Use left and right arrows to navigate between slides', undefined, { duration: 5000 });
     const keyDown$ = fromEvent<KeyboardEvent>(document, 'keydown');
     const arrowRight$ = keyDown$.pipe(filter(e => e.key === 'ArrowRight'));
     const arrowLeft$ = keyDown$.pipe(filter(e => e.key === 'ArrowLeft'));

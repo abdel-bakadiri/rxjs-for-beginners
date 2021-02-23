@@ -8,11 +8,11 @@ import { ObserverPatternComponent } from './pages/observer-pattern/observer-patt
 import { ReactiveProgrammingComponent } from './pages/reactive-programming/reactive-programming.component';
 import { ReactivexComponent } from './pages/reactivex/reactivex.component';
 import { RxjsOperatorsComponent } from './pages/rxjs-operators/rxjs-operators.component';
-import { ShowsCodeComponent } from './pages/shows-code/shows-code.component';
 import { StartComponent } from './pages/start/start.component';
 import { SubjectsComponent } from './pages/subjects/subjects.component';
 import { TheEndComponent } from './pages/the-end/the-end.component';
 import { UnsubscribeComponent } from './pages/unsubscribe/unsubscribe.component';
+import { QuestionsComponent } from './pages/questions/questions.component';
 
 const pageComponents: Type<unknown>[] = [
   StartComponent,
@@ -20,14 +20,14 @@ const pageComponents: Type<unknown>[] = [
   ObserverPatternComponent,
   ReactivexComponent,
   ObservableComponent,
+  SubjectsComponent,
+  RxjsOperatorsComponent,
   ObservablesInAngularComponent,
   BasicUsageComponent,
   UnsubscribeComponent,
-  RxjsOperatorsComponent,
-  SubjectsComponent,
-  TheEndComponent,
   ShowsComponent,
-  ShowsCodeComponent,
+  TheEndComponent,
+  QuestionsComponent,
 ];
 
 const routes: Routes = pageComponents.map((component, index) => ({ component, path: `page-${index + 1}` }));

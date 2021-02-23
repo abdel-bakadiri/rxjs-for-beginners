@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, interval } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-unsubscribe',
@@ -62,5 +64,9 @@ this.result$ = this.httpClient.get<Result>('/api');
 // HTML
 <div *ngIf="result$ | async as results">`;
 
-  ngOnInit(): void {}
+  message$: Observable<string> | undefined;
+
+  ngOnInit(): void {
+    this.message$ = interval(1000).pipe(map(value => `You're looking at this page for ${value + 1} seconds!`));
+  }
 }

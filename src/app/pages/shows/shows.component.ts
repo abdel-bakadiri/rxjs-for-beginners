@@ -1,20 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, combineLatest, BehaviorSubject, Subject, of, ReplaySubject, merge } from 'rxjs';
-import { map, distinctUntilChanged, switchMap, share, tap, startWith, filter, debounceTime } from 'rxjs/operators';
-
-interface Show {
-  title: string;
-  year: number;
-  network: string;
-  overview: string;
-  genres: string[];
-  status: string;
-  rating: number;
-  ids: {
-    imdb: string;
-  };
-}
+import { Observable, combineLatest, BehaviorSubject, ObservableInput, ObservedValueOf, OperatorFunction, Subject, pipe } from 'rxjs';
+import { map, switchMap, pairwise, startWith, scan, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { Show } from 'src/app/models';
+import { ShowsService } from 'src/app/services/shows.service';
 
 @Component({
   selector: 'app-shows',
@@ -24,33 +12,31 @@ interface Show {
 })
 export class ShowsComponent implements OnInit {
   readonly headers: (keyof Show)[] = ['title', 'year', 'network', 'status', 'rating'];
-  readonly selectedShow$ = new ReplaySubject<Show | undefined>(1);
-  readonly selectedNetwork$ = new Subject<string | undefined>();
-  readonly selectedYear$ = new Subject<number | undefined>();
+
+  readonly selectedNetwork$ = new BehaviorSubject<string | undefined>(undefined);
+  readonly selectedYear$ = new BehaviorSubject<number | undefined>(undefined);
   readonly sortingProperty$ = new BehaviorSubject<keyof Show>('title');
-  readonly sortingDesc$ = new BehaviorSubject<boolean>(false);
-  readonly search$ = new Subject<string>();
+  readonly searchText$ = new BehaviorSubject<string | undefined>(undefined);
+  readonly isLoading$ = new BehaviorSubject<boolean>(false);
 
-  hasFilters$: Observable<boolean> | undefined;
   shows$: Observable<Show[]> | undefined;
-  posterUrl$: Observable<string | undefined> | undefined;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private showsService: ShowsService) {}
 
   ngOnInit(): void {
-    const selectedNetwork$ = this.selectedNetwork$.pipe(distinctUntilChanged(), startWith(undefined));
-    const selectedYear$ = this.selectedYear$.pipe(distinctUntilChanged(), startWith(undefined));
-    const search$ = this.search$.pipe(debounceTime(250), distinctUntilChanged(), startWith(undefined));
-    const filters$ = combineLatest([selectedNetwork$, selectedYear$, search$]);
-    this.hasFilters$ = filters$.pipe(map(([network, year, search]) => !!network || !!year || (!!search && search.length > 2)));
-    const shows$ = filters$.pipe(
-      tap(() => this.selectedShow$.next(undefined)),
-      switchMap(([network, year, search]) => this.getShows(network, year, search))
+    const shows$ = combineLatest([this.selectedNetwork$, this.selectedYear$, this.searchText$.pipe(debounceTime(250))]).pipe(
+      debounceTime(0),
+      distinctUntilChanged((arrayA, arrayB) => arrayA.every((x, i) => x === arrayB[i])),
+      switchMapWithLoading(this.isLoading$, ([network, year, search]) => this.showsService.getShows(network, year, search))
     );
-    this.shows$ = combineLatest([shows$, this.sortingProperty$, this.sortingDesc$]).pipe(
+    const sortingDesc$ = this.sortingProperty$.pipe(
+      pairwise(),
+      scan((desc, [previous, current]) => previous === current && !desc, false),
+      startWith(false)
+    );
+    this.shows$ = combineLatest([shows$, this.sortingProperty$, sortingDesc$]).pipe(
       map(([shows, sortProperty, sortDesc]) => this.sortShows(shows, sortProperty, sortDesc))
     );
-    this.posterUrl$ = this.selectedShow$.pipe(switchMap(show => (show ? this.getOMDBPosterUrl(show.ids.imdb) : of(undefined))));
   }
 
   onNetworkSelect(network: string): void {
@@ -61,47 +47,32 @@ export class ShowsComponent implements OnInit {
     this.selectedYear$.next(year);
   }
 
-  onShowSelect(show: Show): void {
-    this.selectedShow$.next(show);
-  }
-
   onSort(property: keyof Show): void {
     this.sortingProperty$.next(property);
-    this.sortingDesc$.next(this.sortingProperty$.value === property && !this.sortingDesc$.value);
   }
 
   onResetFilters(): void {
     this.selectedNetwork$.next(undefined);
     this.selectedYear$.next(undefined);
-    this.search$.next(undefined);
+    this.searchText$.next(undefined);
   }
 
   onSearchInput(input: string) {
-    this.search$.next(input);
+    this.searchText$.next(input);
   }
 
-  private sortShows(shows: Show[], property: keyof Show = 'title', desc: boolean = true): Show[] {
-    return shows.sort((a, b) => (a[property] > b[property] ? 1 : -1) * (desc ? -1 : 1));
+  private sortShows(shows: Show[], property: keyof Show = 'title', desc: boolean = false): Show[] {
+    return shows.sort((a, b) => (a[property] === b[property] ? 0 : a[property] > b[property] ? 1 : -1) * (desc ? -1 : 1));
   }
+}
 
-  private getShows(network?: string, year?: number, search?: string): Observable<Show[]> {
-    const apiKey = 'd4fdc0c985770f4486f5c1d8a637c9d1cc4153933e7e258aa9a4b24a2d36cd7b';
-    const apiUrl = 'https://api.trakt.tv';
-    const headers = { 'trakt-api-key': apiKey };
-
-    if (search && search.length > 2) {
-      return this.httpClient
-        .get<{ show: Show }[]>(`${apiUrl}/search/show?extended=full&query=${search || ''}&networks=${network || ''}&years=${year || ''}`, {
-          headers,
-        })
-        .pipe(map(response => response.map(x => x.show)));
-    }
-    return this.httpClient.get<Show[]>(`${apiUrl}/shows/popular?extended=full&networks=${network || ''}&years=${year || ''}`, {
-      headers,
-    });
-  }
-
-  private getOMDBPosterUrl(id: string): Observable<string> {
-    return this.httpClient.get<any>(`http://www.omdbapi.com/?apikey=fb5f6564&i=${id}`).pipe(map(x => x.Poster));
-  }
+function switchMapWithLoading<T, O extends ObservableInput<any>>(
+  isLoading$: Subject<boolean>,
+  project: (value: T, index: number) => O
+): OperatorFunction<T, ObservedValueOf<O>> {
+  return pipe(
+    tap(() => isLoading$.next(true)),
+    switchMap(project),
+    tap(() => isLoading$.next(false))
+  );
 }

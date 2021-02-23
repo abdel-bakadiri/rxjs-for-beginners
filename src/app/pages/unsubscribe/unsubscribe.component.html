@@ -10,6 +10,7 @@
     <mat-tab label="Memory leak">
       <div class="tab">
         <pre><code [highlight]="leakCode"></code></pre>
+        <p>{{ message$ | async }}</p>
         <img src="assets/images/memory-leak.png" />
       </div>
     </mat-tab>

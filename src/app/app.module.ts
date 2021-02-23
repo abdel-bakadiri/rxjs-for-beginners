@@ -11,6 +11,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ReactiveProgrammingComponent } from './pages/reactive-programming/reactive-programming.component';
 import { ObserverPatternComponent } from './pages/observer-pattern/observer-pattern.component';
 import { ObservableComponent } from './pages/observable/observable.component';
@@ -25,7 +27,7 @@ import { StartComponent } from './pages/start/start.component';
 import { ShowsComponent } from './pages/shows/shows.component';
 import { FormsModule } from '@angular/forms';
 import { ReactivexComponent } from './pages/reactivex/reactivex.component';
-import { ShowsCodeComponent } from './pages/shows-code/shows-code.component';
+import { QuestionsComponent } from './pages/questions/questions.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,7 @@ import { ShowsCodeComponent } from './pages/shows-code/shows-code.component';
     StartComponent,
     ShowsComponent,
     ReactivexComponent,
-    ShowsCodeComponent,
+    QuestionsComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,8 @@ import { ShowsCodeComponent } from './pages/shows-code/shows-code.component';
     MatTabsModule,
     MatListModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
   ],
   providers: [
     {
